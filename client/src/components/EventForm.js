@@ -40,7 +40,7 @@ const EventForm = () => {
         })
             .then(res => {
                 console.log(res);
-                navigate("/dashboard")
+                navigate("/explore")
             })
             .catch(err => {
                 console.log("errrrrrrrrrrr");
@@ -75,6 +75,13 @@ const EventForm = () => {
                     <label>Astronomy phenomenon</label><br />
                     <input type="text" onChange={(e) => setSpace(e.target.value)} value={space} />
                     {errors.space? <p style={{color: "red"}}>{errors.space.message}</p>: ""}
+                </p>
+
+
+                <p>
+                    <label>Event Date</label><br />
+                    <input type="date" onChange={(e) => setDate(e.target.value)} value={date} />
+                    {errors.space? <p style={{color: "red"}}>{errors.date.message}</p>: ""}
                 </p>
 
                 <p>
