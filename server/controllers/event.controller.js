@@ -1,13 +1,14 @@
 const Event = require('../models/event.model');
 
 module.exports.createEvent = (request, response) => {
-    const { name, location, capacity, space, purpose, creator_id } = request.body;
+    const { name, location, capacity, space, purpose, date, creator_id } = request.body;
     Event.create({
         name,
         location,
         capacity,
         space,
         purpose,
+        date,
         creator_id
     })
         .then(event => {

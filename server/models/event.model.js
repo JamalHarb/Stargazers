@@ -31,7 +31,8 @@ const EventSchema = new mongoose.Schema({
 
     date: {
         type: Date,
-        required: [true, "Date is required"]
+        required: [true, "Date is required"],
+        min: [new Date(), "Date must be in the future"]
     },
 
     creator_id: {
