@@ -28,7 +28,7 @@ const Dashboard = () => {
                 console.log(err);
                 navigate('/');
             });
-    });
+    }, [navigate]);
 
     return ( loaded &&
         <div>

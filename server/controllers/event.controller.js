@@ -20,10 +20,17 @@ module.exports.createEvent = (request, response) => {
 
 
 module.exports.getAllEvents = (request, response) => {
-    Event.find().populate("user_id")
+    Event.find().sort({_id:-1}).populate("user_id")
         .then(events => response.json(events))
         .catch(err => response.json(err))
 }
+
+
+// module.exports.getTopEvents = (request, response) => {
+//     Event.find().sort({"at":-1}).limit(3).populate("user_id")
+//         .then(events => response.json(events))
+//         .catch(err => response.json(err))
+// }
 
 module.exports.getEvent = (request, response) => {
     Event.findOne({_id:request.params.id})

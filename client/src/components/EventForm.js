@@ -40,7 +40,7 @@ const EventForm = () => {
             purpose,
             user_id:loggedUser._id
         })
-            .then(res=>{console.log(res); navigate("/dashboard")})
+            .then(res=>{console.log(res); navigate("/explore")})
             .catch(err=>{
                 const errorResponse = err.response.data.errors; 
                 const errorArr = []; 

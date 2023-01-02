@@ -26,9 +26,9 @@ const UserSchema = new mongoose.Schema({
         minlength: [8, "Password must be 8 characters or longer"]
     },
 
-    joinedEvents: [ {
-        type: mongoose.Schema.Types.ObjectId,
-         ref : 'Event'} ]
+    // joinedEvents: [ {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //      ref : 'Event'} ]
 }, { timestamps: true });
 
 // UserSchema.path('email').validate(function (value, done) {
