@@ -8,6 +8,7 @@ const EventForm = () => {
     const [capacity, setCapacity] = useState(0);
     const [space, setSpace] = useState("");
     const [purpose, setPurpose] = useState("");
+    const [date, setDate] = useState("");
     const [errors, setErrors] = useState([]);
     const [loggedUser, setLoggedUser] = useState({});
     const [loaded, setLoaded] = useState(false);
@@ -34,11 +35,12 @@ const EventForm = () => {
             capacity,
             space,
             purpose,
+            date,
             creator_id: loggedUser._id
         })
             .then(res => {
                 console.log(res);
-                navigate("/dashboard")
+                navigate("/explore")
             })
             .catch(err => {
                 console.log("errrrrrrrrrrr");
@@ -73,6 +75,13 @@ const EventForm = () => {
                     <label>Astronomy phenomenon</label><br />
                     <input type="text" onChange={(e) => setSpace(e.target.value)} value={space} />
                     {errors.space? <p style={{color: "red"}}>{errors.space.message}</p>: ""}
+                </p>
+
+
+                <p>
+                    <label>Event Date</label><br />
+                    <input type="date" onChange={(e) => setDate(e.target.value)} value={date} />
+                    {errors.space? <p style={{color: "red"}}>{errors.date.message}</p>: ""}
                 </p>
 
                 <p>
