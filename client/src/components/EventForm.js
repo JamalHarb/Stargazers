@@ -94,9 +94,11 @@ const EventForm = () => {
                     </select>
                     {errors.purpose? <p style={{color: "red"}}>{errors.purpose.message}</p>: ""}
                 </p>
-
-
-
+                <p>
+                    <label>Date</label>
+                    <input type={"date"} onChange={e => setDate(e.target.value)} value={date} />
+                    {errors.date? <p style={{color: "red"}}>{errors.date.message}</p>: ""}
+                </p>
                 <input type="submit" value={"Create Event"} />
             </form>
         </div>
