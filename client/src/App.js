@@ -9,13 +9,10 @@ function App() {
   return (
     <div className="App">
       <Routes>
-
-      <Route path={'/nasaapi'} element={<NasaApi/>} />
         <Route path={'/'} element={<LogReg />} />
-
-        <Route path={'/create'} element={<EventForm/>} />
-
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path={'/events/create'} element={<EventForm />} />
+        <Route path={'/nasaapi'} element={<NasaApi />} />
       </Routes>
     </div>
   );

@@ -28,12 +28,13 @@ const Dashboard = () => {
                 console.log(err);
                 navigate('/');
             });
-    });
+    }, [navigate]);
 
     return ( loaded &&
         <div>
             <h1>Welcome {loggedUser.firstName}</h1>
             <button onClick={logout}>Logout</button>
+            <button onClick={() => navigate('/events/create')}>Create an Event</button>
         </div>
     )
 }
