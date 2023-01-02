@@ -1,21 +1,21 @@
-import React, {useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const EventForm = () => {
-
-    const [name, setName] = useState(""); 
+    const [name, setName] = useState("");
     const [location, setLocation] = useState("");
     const [capacity, setCapacity] = useState(0);
     const [space, setSpace] = useState("");
     const [purpose, setPurpose] = useState("");
+    const [date, setDate] = useState("");
     const [errors, setErrors] = useState([]);
-    const[loggedUser, setLoggedUser] = useState({});
+    const [loggedUser, setLoggedUser] = useState({});
     const [loaded, setLoaded] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/users/logged', {withCredentials: true})
+        axios.get('http://localhost:8000/api/users/logged', { withCredentials: true })
             .then(res => {
                 console.log(res);
                 setLoggedUser(res.data.user);
@@ -27,72 +27,80 @@ const EventForm = () => {
             });
     }, [navigate]);
 
-
     const onSubmitHandler = e => {
-        
         e.preventDefault();
-       
         axios.post('http://localhost:8000/api/events', {
             name,
             location,
             capacity,
             space,
             purpose,
-            user_id:loggedUser._id
+            date,
+            creator_id: loggedUser._id
         })
-            .then(res=>{console.log(res); navigate("/explore")})
-            .catch(err=>{
-                const errorResponse = err.response.data.errors; 
-                const errorArr = []; 
-                for (const key of Object.keys(errorResponse)) { 
-                    errorArr.push(errorResponse[key].message)
-                }
-              
-                setErrors(errorArr);
-            })   
+            .then(res => {
+                console.log(res);
+                navigate("/explore")
+            })
+            .catch(err => {
+                console.log("errrrrrrrrrrr");
+                console.log(err);
+                setErrors(err.response.data.Error.errors);
+            });
     }
-return (
-    <div>
-    <form onSubmit={onSubmitHandler}  style={{marginLeft:"39%", marginTop:"3%"}}>
-    {errors.map((err, index) => <p key={index}>{err}</p>)}
+
+    return (loaded &&
+        <div>
+            <h1>Welcome, {loggedUser.firstName}</h1>
+            <form onSubmit={onSubmitHandler}>
+                <p>
+                    <label>Event Name</label><br />
+                    <input type="text" onChange={(e) => setName(e.target.value)} value={name} />
+                    {errors.name? <p style={{color: "red"}}>{errors.name.message}</p>: ""}
+                </p>
+
+                <p>
+                    <label>Location</label><br />
+                    <input type="text" onChange={(e) => setLocation(e.target.value)} value={location} />
+                    {errors.location? <p style={{color: "red"}}>{errors.location.message}</p>: ""}
+                </p>
+
+                <p>
+                    <label>Capacity</label><br />
+                    <input type="number" onChange={(e) => setCapacity(e.target.value)} value={capacity} />
+                    {errors.capacity? <p style={{color: "red"}}>{errors.capacity.message}</p>: ""}
+                </p>
+
+                <p>
+                    <label>Astronomy phenomenon</label><br />
+                    <input type="text" onChange={(e) => setSpace(e.target.value)} value={space} />
+                    {errors.space? <p style={{color: "red"}}>{errors.space.message}</p>: ""}
+                </p>
 
 
-            <p>
-                <label>Event Name</label><br/>
-                <input type="text" onChange={(e)=>setName(e.target.value)} value={name}/>
-            </p>
+                <p>
+                    <label>Event Date</label><br />
+                    <input type="date" onChange={(e) => setDate(e.target.value)} value={date} />
+                    {errors.space? <p style={{color: "red"}}>{errors.date.message}</p>: ""}
+                </p>
 
-            <p>
-                <label>Location</label><br/>
-                <input type="text" onChange={(e)=>setLocation(e.target.value)} value={location}/>
-            </p>
+                <p>
+                    <label htmlFor="purpose">Event purpose:</label>
+                    <select name="purpose" id="purpose" onChange={(e) => setPurpose(e.target.value)} value={purpose}>
+                        <option value="">select purpose</option>
+                        <option value="research">Research</option>
+                        <option value="education">Education</option>
+                        <option value="fun">Fun</option>
+                    </select>
+                    {errors.purpose? <p style={{color: "red"}}>{errors.purpose.message}</p>: ""}
+                </p>
 
-            <p>
-                <label>Capacity</label><br/>
-                <input type="number" onChange={(e)=>setCapacity(e.target.value)} value={capacity}/>
-            </p>
 
-            <p>
-                <label>Astronomy phenomenon</label><br/>
-                <input type="text" onChange={(e)=>setSpace(e.target.value)} value={space}/>
-            </p>
 
-            <p>
-<label for="purpose">Event purpose:</label>
-    <select name="purpose" id="purpose" onChange={(e) => setPurpose(e.target.value)} value={purpose}>
-    <option value="research">Research</option>
-    <option value="education">Education</option>
-<option value="fun">Fun</option>
-                                
-</select>
-                            </p>
-
-                         
-        
-            <input type="submit"/>
-        </form>
-    </div>
-)
+                <input type="submit" value={"Create Event"} />
+            </form>
+        </div>
+    )
 }
 
 export default EventForm

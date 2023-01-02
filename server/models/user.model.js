@@ -31,16 +31,6 @@ const UserSchema = new mongoose.Schema({
     //      ref : 'Event'} ]
 }, { timestamps: true });
 
-// UserSchema.path('email').validate(function (value, done) {
-//     this.model('User').count({ email: value }, function (err, count) {
-//         if (err) {
-//             return done(err);
-//         }
-//         // If `count` is greater than zero, "invalidate"
-//         done(!count);
-//     });
-// }, 'Email already exists');
-
 UserSchema.path('email').validate(async (value) => {
     const emailCount = await mongoose.models.User.countDocuments({ email: value });
     return !emailCount;
