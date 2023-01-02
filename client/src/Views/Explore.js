@@ -39,7 +39,7 @@ const Explore = () => {
 
   return (
     <div>
-            <button style={{marginLeft:"80%", marginTop:"3%", backgroundColor:"blue", color:"white"}}> <Link style={{  color:"white"}}to={"/create"} >Create your own event</Link></button>
+            <button style={{marginLeft:"80%", marginTop:"3%", backgroundColor:"blue", color:"white"}}> <Link style={{  color:"white"}}to={"/events/create"} >Create your own event</Link></button>
 
     <div  style={{display:"flex", justifyContent: "space-around"}} >
 <div style={{backgroundColor:"grey", width:"300px", height:"1000px", padding:"10px"}}>
