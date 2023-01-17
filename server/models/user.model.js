@@ -25,6 +25,10 @@ const UserSchema = new mongoose.Schema({
         required: [true, "Password is required"],
         minlength: [8, "Password must be 8 characters or longer"]
     },
+    createdEvents: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Event'
+    }]
 
     // joinedEvents: [ {
     //     type: mongoose.Schema.Types.ObjectId,

@@ -24,15 +24,10 @@ const EventSchema = new mongoose.Schema({
         minlength: [5, "Astronomy phenomenon name must be at least 5 characters"],
     },
 
-    purpose: {
-        type: String,
-        required: [true, "Purpose is required"]
-    },
-
     date: {
         type: Date,
         required: [true, "Date is required"],
-        min: [new Date(), "Date must be in the future"]
+        min: [new Date() - 86400000, "Date must be in the future"]
     },
 
     creator_id: {

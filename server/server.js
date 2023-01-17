@@ -15,6 +15,15 @@ AllMyUserRoutes(app);
 
 const AllMyEventRoutes = require("./routes/event.routes");
 AllMyEventRoutes(app);
+
+const AllMessagesRoutes = require ("./routes/message.routes");
+AllMessagesRoutes(app);
     
 const port = 8000;
-app.listen(port, () => console.log("The server is listening on port", port));
+const server = app.listen(port, () => console.log("The server is listening on port", port));
+
+const io = require('socket.io')(server, {cors: true});
+io.on("connection", socket =>{
+    console.log(socket.id);
+    socket.on("chat1",data=>{io.emit("chat",data)});
+})
