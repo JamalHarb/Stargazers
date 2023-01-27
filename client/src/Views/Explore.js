@@ -1,55 +1,65 @@
-import React, {useEffect,useState} from 'react';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
-import {
-    Routes,
-    Route,
-    Link
-  } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RecentEvent from '../components/RecentEvent';
-import TopEvent from '../components/TopEvent.';
+import TopEvent from '../components/TopEvent';
 
 
 const Explore = () => {
 
-    const [events, setEvents] = useState([]);
-    const [topEvents, setTopEvents] = useState([]);
-    const [loaded, setLoaded] = useState(false);
-    
-
-    useEffect(()=>{
-        axios.get('http://localhost:8000/api/events')
-            .then(res=>{
-                setEvents(res.data);
-                setLoaded(true);
-            })
-            .catch(err => console.error(err));
-    },[]);
+  const [events, setEvents] = useState([]);
+  const [topEvents, setTopEvents] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [loggedUser, setLoggedUser] = useState({});
+  const navigate = useNavigate();
 
 
-    // useEffect(()=>{
-    //     axios.get('http://localhost:8000/api/events/top')
-    //         .then(res=>{
-    //             setTopEvents(res.data);
-    //             setLoaded(true);
-    //         })
-    //         .catch(err => console.error(err));
-    // },[]);
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/events')
+      .then(res => {
+        console.log("events", res.data);
+        setEvents(res.data);
+        setLoaded(true);
+      })
+      .catch(err => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/users/logged', { withCredentials: true })
+      .then(res => {
+        console.log(res);
+        setLoggedUser(res.data.user);
+        setLoaded(true);
+      })
+      .catch(err => {
+        console.log(err);
+        navigate('/');
+      });
+  }, [navigate]);
+
+  const logout = e => {
+    e.preventDefault();
+    axios.get('http://localhost:8000/api/users/logout', { withCredentials: true })
+      .then(res => {
+        console.log(res);
+        navigate('/');
+      })
+      .catch(err => console.log(err));
+  }
 
 
-  return (
+  return (loaded &&
     <div>
-            <button style={{marginLeft:"80%", marginTop:"3%", backgroundColor:"blue", color:"white"}}> <Link style={{  color:"white"}}to={"/events/create"} >Create your own event</Link></button>
+      <div>
+        <div >
+          {loaded && <RecentEvent events={events} loggedUser={loggedUser} />}
+        </div>
+        {/* <div style={{ width: "300px", height: "800px", padding: "10px" }}>
+          {loaded && <TopEvent loggedUser={loggedUser} />}
+        </div> */}
 
-    <div  style={{display:"flex", justifyContent: "space-around"}} >
-<div style={{backgroundColor:"grey", width:"300px", height:"1000px", padding:"10px"}}>
-       {loaded && <RecentEvent   events={events}/>}
-       </div>
-       {/* <div  style={{backgroundColor:"grey", width:"300px", height:"800px", padding:"10px"}}>
-      {loaded && <TopEvent  topEvents={topEvents}/> }
-      </div> */}
-      
-    </div>
+      </div>
     </div>
   )
 }
